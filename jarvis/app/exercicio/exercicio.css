@@ -1,0 +1,174 @@
+.exercicioContainer {
+  min-height: 100vh;
+  background: radial-gradient(circle at center, #041a0f 0%, #000000 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  color: #fff;
+}
+
+.glassWrapper {
+  width: 100%;
+  max-width: 800px;
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(44, 203, 122, 0.2);
+  border-radius: 2rem;
+  padding: 3rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.view {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.mainTitle {
+  font-size: 2.5rem;
+  font-weight: 800;
+  letter-spacing: -1px;
+  background: linear-gradient(180deg, #fff 0%, #2ccb7a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.sectionTitle {
+  color: #2ccb7a;
+  font-weight: 800;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+}
+
+.textInput {
+  width: 100%;
+  min-height: 150px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 600;
+  resize: none;
+  outline: none;
+  transition: 0.3s;
+}
+
+.textInput:focus {
+  border-color: #2ccb7a;
+  box-shadow: 0 0 15px rgba(44, 203, 122, 0.1);
+}
+
+.actionButton {
+  background: #2ccb7a;
+  color: #000;
+  padding: 1.2rem 2.5rem;
+  border-radius: 100px;
+  font-weight: 800;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+  align-self: center;
+}
+
+.actionButton:hover:not(:disabled) {
+  transform: scale(1.05);
+  box-shadow: 0 0 30px rgba(44, 203, 122, 0.4);
+}
+
+.actionButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.exCard {
+  background: rgba(255, 255, 255, 0.03);
+  padding: 1.5rem;
+  border-radius: 1rem;
+  border-left: 4px solid #2ccb7a;
+  margin-bottom: 1.5rem;
+}
+
+.exTexto {
+  font-weight: 700;
+  margin-bottom: 1rem;
+  line-height: 1.4;
+}
+
+.answerInput {
+  width: 100%;
+  background: #000;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  color: #fff;
+  font-weight: 500;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.secondaryButton {
+  background: transparent;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 1.2rem 2.5rem;
+  border-radius: 100px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.secondaryButton:hover {
+  border-color: #fff;
+}
+
+
+.inputLabel {
+  display: block;
+  font-weight: 700;
+  color: #2ccb7a;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+
+.simpleInput, .simpleSelect {
+  width: 100%;
+  background: rgba(0,0,0,0.5);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  color: white;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+.row { display: flex; gap: 1rem; }
+.col { flex: 1; }
+
+.feedbackContainer {
+  background: rgba(44, 203, 122, 0.05);
+  padding: 1.5rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(44, 203, 122, 0.2);
+}
+
+.feedbackTexto {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-family: inherit;
+  line-height: 1.6;
+}
