@@ -155,7 +155,7 @@ export default function Dashboard() {
             <button onClick={limparHistorico} className="clearButton">
               Limpar Histórico
             </button>
-            <button onClick={() => window.location.href = "/"} className="backButton">
+            <button onClick={() => window.location.href = "/exercicio"} className="backButton">
               ← Voltar
             </button>
           </div>
