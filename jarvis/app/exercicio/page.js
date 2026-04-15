@@ -41,9 +41,55 @@ export default function Exercicio() {
     }
   };
 
+        const salvarHistorico = (questoesComResultado, acertos, total, nota) => {
+          const sessao = {
+            id: Date.now(),
+            data: new Date().toLocaleString(),
+            assunto: assunto,
+            nivel: nivel,
+            total_questoes: total,
+            acertos: acertos,
+            nota: nota,
+            questoes: questoesComResultado
+          };
+          
+          const historico = JSON.parse(localStorage.getItem("historico") || "[]");
+          historico.unshift(sessao);
+          localStorage.setItem("historico", JSON.stringify(historico));
+        };
+
   const enviarRespostas = async () => {
     if (!Array.isArray(exercicios)) return;
     setLoading(true);
+    
+    const questoesComResultado = exercicios.map((ex, i) => ({
+      pergunta: ex.pergunta,
+      resposta_usuario: respostas[i] || "Não respondida",
+      resposta_correta: ex.correta,
+      acertou: respostas[i] === ex.correta
+    }));
+    
+    const total = questoesComResultado.length;
+    const acertos = questoesComResultado.filter(q => q.acertou).length;
+    const nota = (acertos / total * 10).toFixed(1);
+
+    try {
+      await fetch("http://localhost:8000/api/salvar-sessao", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          assunto: assunto,
+          nivel: nivel,
+          total_questoes: total,
+          acertos: acertos,
+          nota: parseFloat(nota),
+          questoes: questoesComResultado
+        })
+      });
+    } catch (error) {
+      console.error("Erro ao salvar:", error);
+    }
+    
     const payload = exercicios.map((ex, i) => ({
       pergunta: ex.pergunta,
       resposta: respostas[i] || "Vazio"
@@ -104,16 +150,19 @@ export default function Exercicio() {
                 </div>
               </div>
 
-              <button className="actionButton" onClick={gerarExercicios} disabled={loading || !assunto}>
-                {loading ? "Processando..." : "Gerar Atividade"}
-              </button> 
-              <br></br>
-              <button
-                onClick={() => window.location.href = "/"}
-                className="button"
-              >
-                Voltar para tela inicial
-              </button>
+              <div className="buttonGroup">
+                <button className="actionButton" onClick={gerarExercicios} disabled={loading || !assunto}>
+                  {loading ? "Processando..." : "Gerar Atividade"}
+                </button>
+                
+                <button className="button button-dashboard" onClick={() => window.location.href = "/dashboard"}>
+                   Ver Histórico
+                </button>
+                
+                <button className="button" onClick={() => window.location.href = "/"}>
+                  Voltar ao Início
+                </button>
+              </div>
             </div>
           </div>
         )}
@@ -160,11 +209,17 @@ export default function Exercicio() {
 
         {etapa === "feedback" && (
           <div className="view">
-            <h2 className="sectionTitle">Feedback do Mentor</h2>
+            <h2 className="sectionTitle">Feedback do Jarvis</h2>
             <div className="feedbackContainer">
               <pre className="feedbackTexto">{feedback}</pre>
             </div>
-            <button className="actionButton" onClick={() => setEtapa("input")}>Novo Treino</button>
+            <button
+              onClick={() => window.location.href = "/dashboard"}
+              className="button"
+              >
+                Veja seu histórico
+            </button>
+            <button className="actionButton" onClick={() => setEtapa("input")}>Novo treino</button>
           </div>
         )}
       </div>

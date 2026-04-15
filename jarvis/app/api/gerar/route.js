@@ -43,7 +43,7 @@ Responda APENAS com JSON neste formato:
           text = text.replace(/```json|```/g, '').trim();
           const exercicios = JSON.parse(text);
           
-          console.log(`✅ Modelo funcionou: ${nomeModelo}`);
+          console.log(`Modelo funcionou: ${nomeModelo}`);
           return NextResponse.json(exercicios);
           
         } else {
@@ -51,7 +51,7 @@ Responda APENAS com JSON neste formato:
             `Analise estas respostas de exercícios e forneça um feedback detalhado com uma nota de 0 a 10. Não coloque '*' na resposta.: ${promptOriginal}`
           );
           const response = await result.response;
-          console.log(`✅ Modelo funcionou: ${nomeModelo}`);
+          console.log(` Modelo funcionou: ${nomeModelo}`);
           return NextResponse.json({ feedback: response.text() });
         }
         

@@ -207,34 +207,6 @@
   margin-bottom: 0.8rem;
 }
 
-.button {
-  background: #1d5f3e;
-  color: #000000;
-  padding: 1rem 2.5rem;
-  border-radius: 100px;
-  font-size: 0.9rem;
-  font-weight: 800;
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  display: inline-block;
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
-  margin-top: 2rem;
-}
-
-.button:hover {
-  background: #2ccb7a;
-  color: #ffffff;
-  transform: translateY(-3px);
-  box-shadow: 0 10px 30px rgba(44, 203, 122, 0.4);
-}
-
-.button:active {
-  transform: translateY(-1px);
-}
-
 .optionsGrid {
   display: flex;
   flex-direction: column;
@@ -296,4 +268,72 @@ input[type="radio"] {
 .view .feedbackTexto {
   display: block !important;
   visibility: visible !important;
+}
+
+
+
+/* Container para os botões */
+.buttonGroup {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+/* Botão principal de ação (Verde) */
+.actionButton {
+  background: #2ccb7a;
+  color: #000;
+  padding: 1rem 2rem;
+  border-radius: 100px;
+  font-weight: 700;
+  font-size: 1rem;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 200px;
+}
+
+.actionButton:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(44, 203, 122, 0.4);
+  background: #2ecc71;
+}
+
+.actionButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Botão secundário (Para dashboard e voltar) */
+.button {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  padding: 1rem 2rem;
+  border-radius: 100px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 200px;
+}
+
+.button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-2px);
+}
+
+/* Botão específico para dashboard (pode ter cor diferente) */
+.button-dashboard {
+  background: rgba(44, 203, 122, 0.2);
+  border-color: rgba(44, 203, 122, 0.5);
+}
+
+.button-dashboard:hover {
+  background: rgba(44, 203, 122, 0.3);
+  border-color: #2ccb7a;
 }
