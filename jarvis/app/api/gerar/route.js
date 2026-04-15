@@ -27,11 +27,18 @@ export async function POST(request) {
     const text = response.text();
 
     if (tipo === "exercicios") {
-      const cleanedText = text.replace(/```json|```/g, "");
-      return NextResponse.json(JSON.parse(cleanedText));
+    const cleanedText = text.replace(/```json|```/g, "").trim();
+  
+    try {
+      const jsonResponse = JSON.parse(cleanedText);
+      // Garante que o que estamos enviando é de fato um Array
+      return NextResponse.json(Array.isArray(jsonResponse) ? jsonResponse : [jsonResponse]);
+      } catch (parseError) {
+      console.error("Erro ao parsear JSON da IA:", cleanedText);
+      return NextResponse.json([{ pergunta: "Erro ao formatar exercícios. Tente novamente." }]);
+      }
     }
-    
-    return NextResponse.json({ feedback: text });
+
 
   } catch (error) {
     console.error(error);

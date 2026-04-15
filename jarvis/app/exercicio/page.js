@@ -103,15 +103,16 @@ export default function Exercicio() {
         {etapa === "resolucao" && (
           <div className="view">
             <h2 className="sectionTitle">Desafios: {assunto}</h2>
-            {exercicios.map((ex, index) => (
-              <div key={index} className="exCard">
-                <p className="exTexto">{ex.pergunta}</p>
-                <textarea 
-                  className="answerInput"
-                  onChange={(e) => setRespostas({...respostas, [index]: e.target.value})}
-                />
-              </div>
-            ))}
+            {Array.isArray(exercicios) && exercicios.map((ex, index) => (
+            <div key={index} className="exCard">
+              <p className="exTexto">{ex.pergunta}</p>
+              <textarea 
+                className="answerInput"
+                placeholder="Sua resposta..."
+                onChange={(e) => setRespostas({...respostas, [index]: e.target.value})}
+              />
+            </div>
+          ))}
             <button className="actionButton" onClick={enviarRespostas} disabled={loading}>
               Finalizar
             </button>
