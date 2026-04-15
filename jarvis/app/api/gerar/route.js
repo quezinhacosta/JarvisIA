@@ -6,42 +6,68 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 export async function POST(request) {
   try {
     const { assunto, nivel, quantidade, tipo, promptOriginal } = await request.json();
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
-    let instrucao = "";
+    // Lista de modelos em ordem de preferência (menos congestionados primeiro)
+    const modelos = [
+      "gemini-2.0-flash-exp",
+      "gemini-1.5-flash-002",
+      "gemini-1.5-pro-002",
+      "gemini-2.5-flash"
+    ];
+    
+    let model = null;
+    let ultimoErro = null;
+    
+    // Tenta cada modelo até um funcionar
+    for (const nomeModelo of modelos) {
+      try {
+        console.log(`Tentando modelo: ${nomeModelo}`);
+        model = genAI.getGenerativeModel({ model: nomeModelo });
+        
+        if (tipo === "exercicios") {
+          const prompt = `Crie ${quantidade} exercícios de múltipla escolha sobre "${assunto}" (nível ${nivel}).
 
-    if (tipo === "exercicios") {
-      instrucao = `Aja como um professor rigoroso e didático. 
-      Gere exatamente ${quantidade} exercícios sobre o assunto "${assunto}", com nível de dificuldade "${nivel}".
-      Retorne APENAS um array JSON puro, sem textos explicativos antes ou depois, seguindo este formato:
-      [{"pergunta": "Texto da pergunta aqui"}]`;
-    } else {
-      instrucao = `Analise as seguintes respostas do aluno para os exercícios propostos. 
-      Dados: ${promptOriginal}. 
-      Dê um feedback detalhado, corrija erros e dê uma nota de 0 a 100.
-      Use uma linguagem moderna e encorajadora.`;
-    }
+Responda APENAS com JSON neste formato:
+[
+  {
+    "pergunta": "texto da pergunta",
+    "opcoes": ["(A) opcao 1", "(B) opcao 2", "(C) opcao 3", "(D) opcao 4"],
+    "correta": "(A) opcao 1"
+  }
+]`;
 
-    const result = await model.generateContent(instrucao);
-    const response = await result.response;
-    const text = response.text();
-
-    if (tipo === "exercicios") {
-    const cleanedText = text.replace(/```json|```/g, "").trim();
-  
-    try {
-      const jsonResponse = JSON.parse(cleanedText);
-      // Garante que o que estamos enviando é de fato um Array
-      return NextResponse.json(Array.isArray(jsonResponse) ? jsonResponse : [jsonResponse]);
-      } catch (parseError) {
-      console.error("Erro ao parsear JSON da IA:", cleanedText);
-      return NextResponse.json([{ pergunta: "Erro ao formatar exercícios. Tente novamente." }]);
+          const result = await model.generateContent(prompt);
+          const response = await result.response;
+          let text = response.text();
+          
+          text = text.replace(/```json|```/g, '').trim();
+          const exercicios = JSON.parse(text);
+          
+          console.log(`✅ Modelo funcionou: ${nomeModelo}`);
+          return NextResponse.json(exercicios);
+          
+        } else {
+          const result = await model.generateContent(
+            `Analise estas respostas de exercícios e forneça um feedback detalhado com uma nota de 0 a 10. Não coloque '*' na resposta.: ${promptOriginal}`
+          );
+          const response = await result.response;
+          console.log(`✅ Modelo funcionou: ${nomeModelo}`);
+          return NextResponse.json({ feedback: response.text() });
+        }
+        
+      } catch (erro) {
+        ultimoErro = erro;
+        console.log(`❌ Modelo ${nomeModelo} falhou: ${erro.message}`);
+        continue;
       }
     }
-
-
+    throw ultimoErro || new Error("Nenhum modelo disponível no momento");
+    
   } catch (error) {
-    console.error(error);
-    return NextResponse.json({ error: "Erro ao processar IA" }, { status: 500 });
+    console.error("Erro no route.js:", error);
+    return NextResponse.json(
+      { error: "Os servidores do Google estão congestionados. Tente novamente em alguns segundos." },
+      { status: 500 }
+    );
   }
 }

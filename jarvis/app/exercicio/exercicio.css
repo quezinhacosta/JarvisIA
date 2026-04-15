@@ -91,7 +91,7 @@
 }
 
 .exCard {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.05);
   padding: 1.5rem;
   border-radius: 1rem;
   border-left: 4px solid #2ccb7a;
@@ -102,6 +102,7 @@
   font-weight: 700;
   margin-bottom: 1rem;
   line-height: 1.4;
+  color: #fff;
 }
 
 .answerInput {
@@ -135,7 +136,6 @@
   border-color: #fff;
 }
 
-
 .inputLabel {
   display: block;
   font-weight: 700;
@@ -156,19 +156,144 @@
   font-weight: 600;
 }
 
-.row { display: flex; gap: 1rem; }
-.col { flex: 1; }
+.row { 
+  display: flex; 
+  gap: 1rem; 
+}
+
+.col { 
+  flex: 1; 
+}
 
 .feedbackContainer {
-  background: rgba(44, 203, 122, 0.05);
+  background: rgba(44, 203, 122, 0.1);
   padding: 1.5rem;
   border-radius: 1rem;
-  border: 1px solid rgba(44, 203, 122, 0.2);
+  border: 1px solid rgba(44, 203, 122, 0.3);
+  max-height: 500px;
+  overflow-y: auto;
+  display: block;
 }
 
 .feedbackTexto {
   white-space: pre-wrap;
   word-wrap: break-word;
   font-family: inherit;
-  line-height: 1.6;
+  line-height: 1.8;
+  font-size: 1rem;
+  color: #e0e0e0;
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+.feedbackTexto strong,
+.feedbackTexto b {
+  color: #2ccb7a;
+  font-weight: bold;
+}
+
+.feedbackTexto ul,
+.feedbackTexto ol {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+}
+
+.feedbackTexto li {
+  margin: 0.3rem 0;
+}
+
+.feedbackTexto p {
+  margin-bottom: 0.8rem;
+}
+
+.button {
+  background: #1d5f3e;
+  color: #000000;
+  padding: 1rem 2.5rem;
+  border-radius: 100px;
+  font-size: 0.9rem;
+  font-weight: 800;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  display: inline-block;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+  margin-top: 2rem;
+}
+
+.button:hover {
+  background: #2ccb7a;
+  color: #ffffff;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(44, 203, 122, 0.4);
+}
+
+.button:active {
+  transform: translateY(-1px);
+}
+
+.optionsGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.optionItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 15px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.optionItem:hover {
+  background-color: rgba(44, 203, 122, 0.2);
+  border-color: #2ccb7a;
+}
+
+.optionItem.selected {
+  background-color: rgba(44, 203, 122, 0.3);
+  border-color: #2ccb7a;
+  border-width: 2px;
+}
+
+.optionLetter {
+  font-weight: bold;
+  font-size: 1.2em;
+  color: #2ccb7a;
+  min-width: 30px;
+  text-align: center;
+}
+
+.optionText {
+  flex: 1;
+  font-size: 1em;
+  color: #fff;
+}
+
+input[type="radio"] {
+  margin-right: 10px;
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+  accent-color: #2ccb7a;
+}
+
+/* Garantia de que o feedback vai aparecer */
+.view .feedbackContainer {
+  display: block !important;
+  visibility: visible !important;
+}
+
+.view .feedbackTexto {
+  display: block !important;
+  visibility: visible !important;
 }

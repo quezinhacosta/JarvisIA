@@ -20,19 +20,29 @@ export default function Exercicio() {
     try {
       const res = await fetch("/api/gerar", {
         method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ assunto, nivel, quantidade, tipo: "exercicios" }),
       });
+      
       const data = await res.json();
+      console.log("Resposta da API:", data);
+      
+      if (!res.ok) {
+        throw new Error(data.error || "Erro na API");
+      }
+      
       setExercicios(data);
       setEtapa("resolucao");
     } catch (error) {
-      alert("Erro ao conectar com Jarvis");
+      console.error("Erro detalhado:", error);
+      alert(`Erro: ${error.message}`);
     } finally {
       setLoading(false);
     }
   };
 
   const enviarRespostas = async () => {
+    if (!Array.isArray(exercicios)) return;
     setLoading(true);
     const payload = exercicios.map((ex, i) => ({
       pergunta: ex.pergunta,
@@ -42,6 +52,7 @@ export default function Exercicio() {
     try {
       const res = await fetch("/api/gerar", {
         method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ 
           promptOriginal: JSON.stringify(payload), 
           tipo: "feedback" 
@@ -95,6 +106,13 @@ export default function Exercicio() {
 
               <button className="actionButton" onClick={gerarExercicios} disabled={loading || !assunto}>
                 {loading ? "Processando..." : "Gerar Atividade"}
+              </button> 
+              <br></br>
+              <button
+                onClick={() => window.location.href = "/"}
+                className="button"
+              >
+                Voltar para tela inicial
               </button>
             </div>
           </div>
@@ -103,18 +121,39 @@ export default function Exercicio() {
         {etapa === "resolucao" && (
           <div className="view">
             <h2 className="sectionTitle">Desafios: {assunto}</h2>
-            {Array.isArray(exercicios) && exercicios.map((ex, index) => (
-            <div key={index} className="exCard">
-              <p className="exTexto">{ex.pergunta}</p>
-              <textarea 
-                className="answerInput"
-                placeholder="Sua resposta..."
-                onChange={(e) => setRespostas({...respostas, [index]: e.target.value})}
-              />
-            </div>
-          ))}
+            {Array.isArray(exercicios) && exercicios.length > 0 ? (
+              exercicios.map((ex, index) => (
+                <div key={index} className="exCard">
+                  <p className="exTexto">{index + 1}. {ex.pergunta}</p>
+                  <div className="optionsGrid">
+                    {ex.opcoes?.map((opcao, i) => {
+                      const letra = String.fromCharCode(65 + i);
+                      return (
+                        <label 
+                          key={i} 
+                          className={`optionItem ${respostas[index] === opcao ? 'selected' : ''}`}
+                          onClick={() => setRespostas({...respostas, [index]: opcao})}
+                        >
+                          <input 
+                            type="radio" 
+                            name={`q-${index}`} 
+                            value={opcao}
+                            checked={respostas[index] === opcao}
+                            onChange={() => setRespostas({...respostas, [index]: opcao})}
+                          />
+                          <span className="optionLetter">{letra}</span>
+                          <span className="optionText">{opcao}</span>
+                        </label>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p>Erro ao carregar questões. Tente gerar novamente.</p>
+            )}
             <button className="actionButton" onClick={enviarRespostas} disabled={loading}>
-              Finalizar
+              {loading ? "Processando..." : "Finalizar"}
             </button>
           </div>
         )}
