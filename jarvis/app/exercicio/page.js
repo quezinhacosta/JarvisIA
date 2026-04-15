@@ -74,7 +74,7 @@ export default function Exercicio() {
     const nota = (acertos / total * 10).toFixed(1);
 
     try {
-      await fetch("http://localhost:8000/api/salvar-sessao", {
+      await fetch("/api/backend/salvar-sessao", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

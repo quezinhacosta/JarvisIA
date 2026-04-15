@@ -7,6 +7,7 @@ import "./dashboard.css";
 
 export default function Dashboard() {
   const [historico, setHistorico] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [estatisticas, setEstatisticas] = useState({
     totalSessoes: 0,
     totalQuestoes: 0,
@@ -23,54 +24,29 @@ export default function Dashboard() {
 
   const carregarHistorico = async () => {
     setLoading(true);
-        try {
-            const [historicoRes, statsRes] = await Promise.all([
-            fetch("http://localhost:8000/api/historico"),
-            fetch("http://localhost:8000/api/estatisticas")
-            ]);
-            
-            const historicoData = await historicoRes.json();
-            const statsData = await statsRes.json();
-            
-            setHistorico(historicoData);
-            setEstatisticas(statsData);
-            setTemHistorico(historicoData.length > 0);
-        } catch (error) {
-            console.error("Erro ao carregar:", error);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-  const calcularEstatisticas = (dados) => {
-    if (dados.length === 0) return;
-
-    let totalQuestoes = 0;
-    let totalAcertos = 0;
-    let melhorNota = 0;
-    const assuntos = {};
-
-    dados.forEach((sessao) => {
-      totalQuestoes += sessao.total_questoes;
-      totalAcertos += sessao.acertos;
-      if (sessao.nota > melhorNota) melhorNota = sessao.nota;
+    try {
+      const [historicoRes, statsRes] = await Promise.all([
+        fetch("/api/backend/historico"),
+        fetch("/api/backend/estatisticas")
+      ]);
       
-      const assunto = sessao.assunto;
-      assuntos[assunto] = (assuntos[assunto] || 0) + 1;
-    });
-
-    const assuntoMaisEstudado = Object.keys(assuntos).reduce((a, b) => 
-      assuntos[a] > assuntos[b] ? a : b, ""
-    );
-
-    setEstatisticas({
-      totalSessoes: dados.length,
-      totalQuestoes: totalQuestoes,
-      totalAcertos: totalAcertos,
-      mediaGeral: (totalAcertos / totalQuestoes * 10).toFixed(1),
-      melhorNota: melhorNota,
-      assuntoMaisEstudado: assuntoMaisEstudado,
-    });
+      const historicoData = await historicoRes.json();
+      const statsData = await statsRes.json();
+      
+      setHistorico(historicoData);
+      setEstatisticas({
+        totalSessoes: statsData.total_sessoes || 0,
+        totalQuestoes: statsData.total_questoes || 0,
+        totalAcertos: statsData.total_acertos || 0,
+        mediaGeral: statsData.media_geral || 0,
+        melhorNota: statsData.melhor_nota || 0,
+        assuntoMaisEstudado: statsData.assunto_mais_estudado || "Nenhum",
+      });
+    } catch (error) {
+      console.error("Erro ao carregar:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const limparHistorico = () => {
@@ -153,15 +129,29 @@ export default function Dashboard() {
     setSessaoSelecionada(null);
   };
 
+  if (loading) {
+    return (
+      <main className="dashboardContainer">
+        <div className="glassWrapper">
+          <div className="loadingState">
+            <p>Carregando histórico...</p>
+          </div>
+        </div>
+      </main>
+    );
+  }
+
   return (
     <main className="dashboardContainer">
       <div className="glassWrapper">
         <div className="dashboardHeader">
           <h1 className="mainTitle">Seu histórico</h1>
           <div className="headerButtons">
-            <button onClick={exportarPDF} className="pdfButton">
-              Exportar PDF
-            </button>
+            {historico.length > 0 && (
+              <button onClick={exportarPDF} className="pdfButton">
+                Exportar PDF
+              </button>
+            )}
             <button onClick={limparHistorico} className="clearButton">
               Limpar Histórico
             </button>
@@ -218,7 +208,7 @@ export default function Dashboard() {
                     </tr>
                   </thead>
                   <tbody>
-                    {historico.map((sessao, index) => (
+                    {historico.map((sessao) => (
                       <tr key={sessao.id}>
                         <td>{sessao.data}</td>
                         <td>{sessao.assunto}</td>
