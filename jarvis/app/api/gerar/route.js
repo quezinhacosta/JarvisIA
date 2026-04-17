@@ -43,7 +43,7 @@ Formato exato:
         messages: [
           {
             role: "system",
-            content: `Você é um tutor educacional. Analise estas respostas de exercícios e forneça um feedback detalhado com uma nota de 0 a 10.
+            content: `Você é um tutor educacional. Analise estas respostas de exercícios e forneça um feedback detalhado sobre cada questão, e no final gere uma nota geral de 0 a 10.
 
 Respostas do aluno: ${promptOriginal}
 

@@ -119,12 +119,12 @@ export default function Exercicio() {
       <div className="glassWrapper">
         {etapa === "input" && (
           <div className="view">
-            <h1 className="mainTitle">Configurar Treino</h1>
+            <h1 className="mainTitle">Configuração dos exercicios</h1>
             <div className="inputBox">
               <label className="inputLabel">Assunto</label>
               <input 
                 className="simpleInput"
-                placeholder="Ex: Estruturas de Dados, React, História..."
+                placeholder="Ex: Estruturas de Dados, matemática basica..."
                 value={assunto}
                 onChange={(e) => setAssunto(e.target.value)}
               />
