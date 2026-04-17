@@ -13,7 +13,6 @@ export default function Dashboard() {
     totalQuestoes: 0,
     totalAcertos: 0,
     mediaGeral: 0,
-    melhorNota: 0,
     assuntoMaisEstudado: "",
   });
   const [sessaoSelecionada, setSessaoSelecionada] = useState(null);
@@ -39,7 +38,6 @@ export default function Dashboard() {
         totalQuestoes: statsData.total_questoes || 0,
         totalAcertos: statsData.total_acertos || 0,
         mediaGeral: statsData.media_geral || 0,
-        melhorNota: statsData.melhor_nota || 0,
         assuntoMaisEstudado: statsData.assunto_mais_estudado || "Nenhum",
       });
     } catch (error) {
@@ -51,14 +49,13 @@ export default function Dashboard() {
 
   const limparHistorico = () => {
     if (confirm("Tem certeza? Todo seu histórico será apagado.")) {
-      localStorage.clear(); // limpa tudo (ou mantenha removeItem se preferir)
+      localStorage.clear();
       setHistorico([]);
       setEstatisticas({
         totalSessoes: 0,
         totalQuestoes: 0,
         totalAcertos: 0,
         mediaGeral: 0,
-        melhorNota: 0,
         assuntoMaisEstudado: "",
       });
       setSessaoSelecionada(null);
@@ -182,10 +179,6 @@ export default function Dashboard() {
               <div className="statCard">
                 <h3>Média Geral</h3>
                 <p className="statNumber">{estatisticas.mediaGeral}/10</p>
-              </div>
-              <div className="statCard">
-                <h3>Melhor Nota</h3>
-                <p className="statNumber">{estatisticas.melhorNota}/10</p>
               </div>
               <div className="statCard">
                 <h3>Assunto mais estudado</h3>
