@@ -51,7 +51,7 @@ export default function Dashboard() {
 
   const limparHistorico = () => {
     if (confirm("Tem certeza? Todo seu histórico será apagado.")) {
-      localStorage.removeItem("historico");
+      localStorage.clear(); // limpa tudo (ou mantenha removeItem se preferir)
       setHistorico([]);
       setEstatisticas({
         totalSessoes: 0,
