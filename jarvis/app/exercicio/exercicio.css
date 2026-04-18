@@ -281,7 +281,6 @@ input[type="radio"] {
   flex-wrap: wrap;
 }
 
-/* Botão principal de ação (Verde) */
 .actionButton {
   background: #2ccb7a;
   color: #000;
@@ -307,7 +306,6 @@ input[type="radio"] {
   cursor: not-allowed;
 }
 
-/* Botão secundário (Para dashboard e voltar) */
 .button {
   background: rgba(255, 255, 255, 0.1);
   color: #fff;
@@ -327,7 +325,6 @@ input[type="radio"] {
   transform: translateY(-2px);
 }
 
-/* Botão específico para dashboard (pode ter cor diferente) */
 .button-dashboard {
   background: rgba(44, 203, 122, 0.2);
   border-color: rgba(44, 203, 122, 0.5);
@@ -336,4 +333,93 @@ input[type="radio"] {
 .button-dashboard:hover {
   background: rgba(44, 203, 122, 0.3);
   border-color: #2ccb7a;
+}
+
+@media (max-width: 768px) {
+  .glassWrapper {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+
+  .mainTitle {
+    font-size: 1.8rem;
+    text-align: center;
+  }
+
+  .sectionTitle {
+    font-size: 1.2rem;
+  }
+
+  .row {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .buttonGroup {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .actionButton, .button {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .exCard {
+    padding: 1rem;
+  }
+
+  .exTexto {
+    font-size: 1rem;
+  }
+
+  .optionsGrid {
+    gap: 8px;
+  }
+
+  .optionItem {
+    padding: 8px 12px;
+  }
+
+  .optionLetter {
+    font-size: 1em;
+    min-width: 25px;
+  }
+
+  .optionText {
+    font-size: 0.9em;
+  }
+
+  .feedbackContainer {
+    padding: 1rem;
+  }
+
+  .feedbackTexto {
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+}
+
+@media (max-width: 480px) {
+  .glassWrapper {
+    padding: 1rem;
+  }
+
+  .mainTitle {
+    font-size: 1.5rem;
+  }
+
+  .optionItem {
+    padding: 6px 10px;
+  }
+
+  .optionLetter {
+    font-size: 0.9em;
+    min-width: 22px;
+  }
+
+  .optionText {
+    font-size: 0.85em;
+  }
 }

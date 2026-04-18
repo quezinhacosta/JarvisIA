@@ -279,3 +279,94 @@
     font-size: 0.8rem;
   }
 }
+
+/* Responsividade para celular */
+@media (max-width: 768px) {
+  .dashboardContainer {
+    padding: 1rem;
+  }
+
+  .glassWrapper {
+    padding: 1rem;
+  }
+
+  .mainTitle {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+  .dashboardHeader {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .headerButtons {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .pdfButton, .clearButton, .backButton {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.8rem;
+  }
+
+  .statCard {
+    padding: 0.8rem;
+  }
+
+  .statCard h3 {
+    font-size: 0.8rem;
+  }
+
+  .statNumber {
+    font-size: 1.3rem;
+  }
+
+  .historicoTable th,
+  .historicoTable td {
+    padding: 0.5rem;
+    font-size: 0.75rem;
+  }
+
+  .detailButton {
+    padding: 0.2rem 0.5rem;
+    font-size: 0.7rem;
+  }
+
+  .modalContent {
+    margin: 1rem;
+    padding: 1rem;
+    max-height: 90vh;
+  }
+
+  .questaoItem {
+    padding: 0.8rem;
+  }
+
+  .questaoItem p {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .historicoTable th,
+  .historicoTable td {
+    padding: 0.3rem;
+    font-size: 0.7rem;
+  }
+
+  .sectionTitle {
+    font-size: 1rem;
+  }
+}
