@@ -74,7 +74,7 @@ async def get_historico():
         return [
             {
                 "id": s.sessao_id,
-                "data": s.data.strftime("%d/%m/%Y %H:%M"),
+                "data": s.data.strftime("%d/%m/%Y"),
                 "assunto": s.assunto,
                 "nivel": s.nivel,
                 "total_questoes": s.total_questoes,
@@ -98,7 +98,7 @@ async def get_sessao(sessao_id: str):
         
         return {
             "id": sessao.sessao_id,
-            "data": sessao.data.strftime("%d/%m/%Y %H:%M"),
+            "data": sessao.data.strftime("%d/%m/%Y"),
             "assunto": sessao.assunto,
             "nivel": sessao.nivel,
             "total_questoes": sessao.total_questoes,
@@ -142,6 +142,20 @@ async def get_estatisticas():
             "media_geral": round(stats.media_geral or 0, 1),
             "assunto_mais_estudado": assunto_result[0] if assunto_result else "Nenhum"
         }
+    finally:
+        db.close()
+
+@app.delete("/api/limpar-historico")
+async def limpar_historico():
+    db = SessionLocal()
+    try:
+        db.query(Questao).delete()
+        db.query(Sessao).delete()
+        db.commit()
+        return {"success": True}
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=500, detail=str(e))
     finally:
         db.close()
 

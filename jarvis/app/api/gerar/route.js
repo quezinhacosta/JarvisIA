@@ -14,16 +14,16 @@ export async function POST(request) {
         messages: [
           {
             role: "system",
-            content: `Você é um professor experiente. Gere ${quantidade} exercícios de múltipla escolha sobre "${assunto}" (nível ${nivel}).
+            content: `Voce e um professor experiente. Gere ${quantidade} exercicios de multipla escolha sobre "${assunto}" (nivel ${nivel}).
 
-IMPORTANTE: Responda APENAS com um array JSON válido, sem texto adicional.
+Responda APENAS com um array JSON valido, sem texto adicional.
 
 Formato exato:
 [
   {
     "pergunta": "texto da pergunta aqui",
-    "opcoes": ["(A) texto da opção A", "(B) texto da opção B", "(C) texto da opção C", "(D) texto da opção D"],
-    "correta": "(A) texto da opção correta"
+    "opcoes": ["(A) texto da opcao A", "(B) texto da opcao B", "(C) texto da opcao C", "(D) texto da opcao D"],
+    "correta": "(A) texto da opcao correta"
   }
 ]`
           }
@@ -43,15 +43,40 @@ Formato exato:
         messages: [
           {
             role: "system",
-            content: `Você é um tutor educacional. Analise estas respostas de exercícios e forneça um feedback detalhado sobre cada questão, e no final gere uma nota geral de 0 a 10.
+            content: `Voce e um mentor educacional paciente e direto. Analise as respostas do aluno.
 
 Respostas do aluno: ${promptOriginal}
 
-Seja construtivo, aponte acertos e erros, e dê dicas de melhoria.`
+Escreva o feedback EXATAMENTE neste formato. A nota NAO deve ser incluida, pois ela sera mostrada separadamente pelo sistema.
+
+QUESTAO 1: [texto resumido da pergunta]
+Sua resposta: [resposta do aluno]
+Resposta correta: [resposta correta]
+Situacao: [Acertou ou Errou]
+Explicacao: [uma frase direta explicando o erro ou confirmando o acerto]
+
+QUESTAO 2: [texto resumido da pergunta]
+Sua resposta: [resposta do aluno]
+Resposta correta: [resposta correta]
+Situacao: [Acertou ou Errou]
+Explicacao: [uma frase direta explicando o erro ou confirmando o acerto]
+
+(repita para todas as questoes)
+
+ANALISE PERSONALIZADA:
+[2 paragrafos analisando os erros e acertos do aluno. Aponte padroes, pontos fracos e pontos fortes. Use "voce" para se referir ao aluno. Seja encorajador mas direto. Nao mencione a nota.]
+
+O QUE ESTUDAR A SEGUIR:
+[Liste 2 ou 3 topicos especificos que o aluno precisa revisar com base nos erros]
+
+Regras:
+- Nao use asteriscos, tracos ou hifens
+- Nao mencione a nota em nenhum lugar
+- Use apenas texto plano com quebras de linha`
           }
         ],
         model: "llama-3.3-70b-versatile",
-        temperature: 0.7,
+        temperature: 0.5,
       });
 
       const feedback = completion.choices[0]?.message?.content || "";
@@ -60,9 +85,9 @@ Seja construtivo, aponte acertos e erros, e dê dicas de melhoria.`
     
   } catch (error) {
     console.error("Erro no Groq:", error);
-    return NextResponse.json(
-      { error: error.message || "Erro ao processar requisição" },
-      { status: 500 }
+      return NextResponse.json(
+        { error: error.message || "Erro ao processar requisicao" },
+        { status: 500 }
     );
   }
 }

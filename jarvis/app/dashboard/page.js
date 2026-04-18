@@ -6,6 +6,7 @@ import autoTable from "jspdf-autotable";
 import "./dashboard.css";
 
 export default function Dashboard() {
+  // const API_URL = "http://127.0.0.1:8000";
   const [historico, setHistorico] = useState([]);
   const [loading, setLoading] = useState(true);
   const [estatisticas, setEstatisticas] = useState({
@@ -47,18 +48,36 @@ export default function Dashboard() {
     }
   };
 
-  const limparHistorico = () => {
+  const limparHistorico = async () => {
     if (confirm("Tem certeza? Todo seu histórico será apagado.")) {
-      localStorage.clear();
-      setHistorico([]);
-      setEstatisticas({
-        totalSessoes: 0,
-        totalQuestoes: 0,
-        totalAcertos: 0,
-        mediaGeral: 0,
-        assuntoMaisEstudado: "",
-      });
-      setSessaoSelecionada(null);
+        try {
+            const response = await fetch('/api/backend/limpar-historico', {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+            
+            if (response.ok) {
+                setHistorico([]);
+                setEstatisticas({
+                    totalSessoes: 0,
+                    totalQuestoes: 0,
+                    totalAcertos: 0,
+                    mediaGeral: 0,
+                    melhorNota: 0,
+                    assuntoMaisEstudado: "",
+                });
+                setSessaoSelecionada(null);
+                carregarHistorico();
+                alert("Histórico apagado com sucesso!");
+            } else {
+                alert("Erro ao apagar histórico");
+            }
+        } catch (error) {
+            console.error("Erro ao apagar histórico:", error);
+            alert("Erro ao conectar com o servidor");
+        }
     }
   };
 

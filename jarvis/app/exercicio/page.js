@@ -44,7 +44,7 @@ export default function Exercicio() {
         const salvarHistorico = (questoesComResultado, acertos, total, nota) => {
           const sessao = {
             id: Date.now(),
-            data: new Date().toLocaleString(),
+            data: new Date().toLocaleDateString(),
             assunto: assunto,
             nivel: nivel,
             total_questoes: total,
