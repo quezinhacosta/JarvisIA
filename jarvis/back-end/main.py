@@ -62,7 +62,7 @@ async def salvar_sessao(sessao_data: SessaoData):
     
     except Exception as e:
         db.rollback()
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e)) 
     finally:
         db.close()
 
