@@ -44,7 +44,7 @@ O histórico de sessões é armazenado e pode ser consultado em um dashboard. O 
 ## Tecnologias Utilizadas
 
 ### Front-end
-* Next.js 15
+* Next.js 16
 * React 19
 * CSS Modules
 
@@ -144,7 +144,7 @@ O fluxo de dados ocorre da seguinte forma:
 3. A API consulta o Groq e retorna os exercicios em formato JSON  
 4. O usuario responde as questoes  
 5. O front-end envia as respostas para a API Route de feedback  
-6. A API consulta novamente o Groq  
+6. A API consulta novamente o Groq para gerar o feedback 
 7. O resultado e exibido ao usuario  
 8. O front-end envia os dados da sessao para o back-end Python  
 9. Os dados sao armazenados no banco  
@@ -168,6 +168,7 @@ Clone o repositorio.
 
 ### Execução do Front-end
 
+cd jarvis
 
 npm install
 
@@ -183,6 +184,8 @@ Acessar em: http://localhost:3000
 
 cd back-end
 
+pip install fastapi uvicorn sqlalchemy pydantic
+
 python main.py
 
 
@@ -194,6 +197,8 @@ O servidor rodara em: http://localhost:8000
 
 
 cd jarvis
+
+npm install --save-dev concurrently
 
 npm run start:all
 
@@ -208,7 +213,7 @@ A comunicacao com a IA ocorre atraves da API Route app/api/gerar/route.js. O fro
 
 Para a geracao de exercicios, e enviado um prompt estruturado que solicita um array JSON no seguinte formato: pergunta, quatro opcoes com letras A, B, C e D, e a alternativa correta.
 
-Para a geracao de feedback, o prompt solicita uma analise detalhada com nota de zero a dez, correcao das respostas e recomendacoes de melhoria.
+Para a geracao de feedback, o prompt solicita uma analise detalhada questao por questao, sem incluir a nota, pois esta e calculada separadamente pelo sistema.
 
 ---
 
