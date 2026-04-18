@@ -1,119 +1,94 @@
-# Jarvis - Assistente de Estudos com IA
+# Jarvis - Assistente de Estudos com Inteligencia Artificial
 
-## Nome da Solução
+## Nome da Solucao
 
-**Jarvis** - Assistente inteligente de estudos baseado em IA.
+Jarvis - Assistente pessoal de estudos com inteligencia artificial
 
 ## Problema Escolhido
 
-Estudantes que resolvem listas de exercícios como metodologia no processo de aprendizado frequentemente não têm acesso a um feedback imediato e estruturado sobre seu desempenho. Sem correção ou orientação sobre os erros, o entendimento do conteudo fica comprometido e a evolução se torna mais lenta.
+Estudantes que resolvem listas de exercicios frequentemente nao tem acesso a um feedback imediato e estruturado sobre seu desempenho. Sem correcao ou orientacao sobre os erros, o aprendizado fica comprometido e a evolucao se torna mais lenta. O estudo sem retorno claro gera frustracao e perda de tempo.
 
-## Objetivo da Aplicação
+## Objetivo da Aplicacao
 
-O Jarvis tem como objetivo fornecer um ambiente de estudo interativo onde o usuário pode gerar exercícios personalizados sobre qualquer assunto, respondê-los e receber um feedback detalhado com nota, correção e recomendações de melhoria, funcionando como um tutor particular disponível integralmente.
+O Jarvis tem como objetivo fornecer um ambiente de estudo interativo onde o usuario pode gerar exercicios personalizados sobre qualquer assunto, respondelos e receber um feedback detalhado com nota, correcao e recomendacoes de melhoria, funcionando como um tutor particular disponivel a qualquer momento.
 
-## Descrição do Caso de Uso
+## Descricao do Caso de Uso
 
-1. O usuário acessa a plataforma e configura um treino informando:
-   - Assunto desejado 
-   - Nível de dificuldade (Iniciante, Médio, Avançado)
-   - Quantidade de questões (1 a 10)
+O usuario acessa a plataforma e configura um treino informando o assunto desejado, o nivel de dificuldade e a quantidade de questoes. O sistema gera os exercicios utilizando inteligencia artificial e os apresenta ao usuario. O usuario responde as questoes selecionando as alternativas. O sistema corrige as respostas, calcula a nota e gera um feedback personalizado. O historico de sessoes e armazenado e pode ser consultado em um dashboard. O usuario pode exportar relatorios em PDF com seu desempenho.
 
-2. O sistema gera os exercícios utilizando IA Groq e os apresenta ao usuário
+## Acesso direto
 
-3. O usuário responde as questões selecionando as alternativas
-
-4. O sistema corrige as respostas, calcula a nota e gera um feedback personalizado
-
-5. O histórico de sessões é armazenado e pode ser consultado em um dashboard
-
-6. O usuário pode exportar relatórios em PDF com seu desempenho
+[Acessar o Jarvis](https://jarvis-ia-ashen.vercel.app/)
 
 ## Tecnologias Utilizadas
 
-### Front-end
-- **Next.js 16** - Framework React com renderização híbrida
-- **React 19** - Biblioteca para construção de interfaces
-- **CSS Modules** - Estilização componentizada
+Front-end: Next.js 16, React 19 e CSS Modules.
 
-### Back-end
-- **Python 3.12** - Linguagem principal do back-end
-- **FastAPI** - Framework para construção da API REST
-- **SQLAlchemy** - ORM para gerenciamento do banco de dados
-- **SQLite** - Banco de dados leve para persistência
+Back-end: Python 3.12, FastAPI, SQLAlchemy e SQLite.
 
-### IA e Integrações
-- **Groq API** - Provedor de IA para geração de exercícios e feedback
-- **Modelo utilizado:** `llama-3.3-70b-versatile` (Meta Llama)
+IA e integracoes: Groq API com o modelo llama-3.3-70b-versatile.
 
-### Bibliotecas Adicionais
-- **jsPDF** - Geração de relatórios PDF
-- **jsPDF AutoTable** - Formatação de tabelas no PDF
+Bibliotecas adicionais: jsPDF e jsPDF AutoTable para geracao de PDFs.
 
-## Arquitetura Geral da Solução
+## Arquitetura Geral da Solucao
+
+O sistema e composto por tres camadas principais.
+
+A camada de front-end e responsavel pela interface com o usuario. Ela e construida com Next.js e React, e inclui a pagina inicial, a pagina de exercicios e o dashboard de historico.
+
+A camada de API Routes do Next.js e responsavel pela comunicacao com a inteligencia artificial. O arquivo app/api/gerar/route.js gerencia as requisicoes para a API do Groq.
+
+A camada de back-end em Python e responsavel pelo armazenamento dos dados. Ela expoe endpoints REST para salvar sessoes, consultar historico e obter estatisticas. Os dados sao persistidos em um banco SQLite com duas tabelas: sessoes e questoes.
+
 ┌─────────────────────────────────────────────────────────────┐
-│ Usuário │
+│                         Usuário                              │
 └─────────────────────────────────────────────────────────────┘
-│
-▼
+                              │
+                              ▼
 ┌─────────────────────────────────────────────────────────────┐
-│ Front-end (Next.js) │
-│ ┌─────────────┐ ┌─────────────┐ ┌─────────────────────┐ │
-│ │ Página │ │ Página de │ │ Dashboard com │ │
-│ │ Inicial │ │ Exercícios │ │ Histórico e PDF │ │
-│ └─────────────┘ └─────────────┘ └─────────────────────┘ │
+│                    Front-end (Next.js)                       │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────┐ │
+│  │  Página     │  │  Página de  │  │  Dashboard com      │ │
+│  │  Inicial    │  │  Exercícios │  │  Histórico e PDF    │ │
+│  └─────────────┘  └─────────────┘  └─────────────────────┘ │
 └─────────────────────────────────────────────────────────────┘
-│
-▼
+                              │
+                              ▼
 ┌─────────────────────────────────────────────────────────────┐
-│ API Routes (Next.js) │
-│ ┌─────────────────────────────────────────────────────────┐│
-│ │ /api/gerar - Integração com Groq API (LLaMA 3.3) ││
-│ └─────────────────────────────────────────────────────────┘│
+│                    API Routes (Next.js)                      │
+│  ┌─────────────────────────────────────────────────────────┐│
+│  │  /api/gerar - Integracao com Groq API (LLaMA 3.3)       ││
+│  └─────────────────────────────────────────────────────────┘│
 └─────────────────────────────────────────────────────────────┘
-│
-▼
+                              │
+                              ▼
 ┌─────────────────────────────────────────────────────────────┐
-│ Back-end (Python/FastAPI) │
-│ ┌─────────────┐ ┌─────────────┐ ┌─────────────────────┐ │
-│ │ /api/ │ │ /api/ │ │ /api/ │ │
-│ │ salvar- │ │ historico │ │ estatisticas │ │
-│ │ sessao │ │ │ │ │ │
-│ └─────────────┘ └─────────────┘ └─────────────────────┘ │
+│                    Back-end (Python/FastAPI)                 │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────┐ │
+│  │  /api/      │  │  /api/      │  │  /api/              │ │
+│  │  salvar-    │  │  historico  │  │  estatisticas       │ │
+│  │  sessao     │  │             │  │                     │ │
+│  └─────────────┘  └─────────────┘  └─────────────────────┘ │
 └─────────────────────────────────────────────────────────────┘
-│
-▼
+                              │
+                              ▼
 ┌─────────────────────────────────────────────────────────────┐
-│ Banco de Dados (SQLite) │
-│ ┌─────────────────┐ ┌─────────────────────────────┐│
-│ │ Tabela: │ │ Tabela: ││
-│ │ sessoes │◄──────►│ questoes ││
-│ └─────────────────┘ └─────────────────────────────┘│
+│                    Banco de Dados (SQLite)                   │
+│  ┌─────────────────┐        ┌─────────────────────────────┐│
+│  │  Tabela:        │        │  Tabela:                    ││
+│  │  sessoes        │◄──────►│  questoes                   ││
+│  └─────────────────┘        └─────────────────────────────┘│
 └─────────────────────────────────────────────────────────────┘
 
-### Fluxo de Dados
+O fluxo de dados ocorre da seguinte forma. O usuario envia uma requisicao para gerar exercicios. O front-end chama a API Route, que consulta o Groq e retorna os exercicios em formato JSON. O usuario responde as questoes. O front-end envia as respostas para a API Route de feedback, que novamente consulta o Groq. O resultado e exibido ao usuario. Simultaneamente, o front-end envia os dados da sessao para o back-end Python, que os armazena no banco de dados. Quando o usuario acessa o dashboard, o front-end consulta o back-end para exibir o historico e as estatisticas.
 
-1. Usuário → Front-end → API Route → Groq API (LLaMA 3.3) → Exercícios gerados
-2. Usuário responde → Front-end → Back-end Python → SQLite → Histórico salvo
-3. Dashboard → Back-end Python → SQLite → Estatísticas e histórico
+## Instrucoes de Instalacao e Execucao
 
-## Instruções de Instalação e Execução
+Pre-requisitos: Node.js 18 ou superior, Python 3.12 ou superior, npm ou yarn, e uma chave de API do Groq obtida em console.groq.com.
 
-### Pré-requisitos
+Configuracao do ambiente: Clone o repositorio, acesse a pasta do projeto e crie um arquivo .env.local com a seguinte variavel: GROQ_API_KEY=chave da api.
 
-- Node.js 18+
-- Python 3.12+
-- npm ou yarn
-- Chave de API do Groq (https://console.groq.com)
-
-### Configuração do Ambiente
-
-1. Clone o repositório:
-```bash
-git clone https://github.com/seu-usuario/jarvis.git
-cd jarvis
-
-### Execução do front-end
+### Execução do Front-end
 
 # Instalar dependências
 npm install
@@ -122,7 +97,6 @@ npm install
 npm run dev
 
 # Acessar em http://localhost:3000
-
 
 ### Execução do back-end 
 
@@ -142,76 +116,64 @@ python main.py
 cd jarvis
 npm run start:all 
 
-## Explicação de Como a IA Foi Integrada
+## Explicacao de Como a IA Foi Integrada
 
-A integração da IA no Jarvis foi feita utilizando a API do Groq com o modelo `llama-3.3-70b-versatile`. A escolha do Groq se deu pela sua estabilidade superior em comparação com alternativas como o Google Gemini, que apresentava erros frequentes de congestionamento (503).
+A integracao da inteligencia artificial foi feita utilizando a API do Groq com o modelo llama-3.3-70b-versatile. A escolha do Groq se deu pela sua estabilidade superior em comparacao com alternativas como o Google Gemini, que apresentava erros frequentes de congestionamento.
 
-A comunicação com a IA ocorre através da API Route `app/api/gerar/route.js`. O fluxo é o seguinte:
+A comunicacao com a IA ocorre atraves da API Route app/api/gerar/route.js. O front-end envia uma requisicao POST com os parametros da sessao. A API Route instancia o cliente Groq utilizando a chave armazenada em GROQ_API_KEY.
 
-1. O front-end envia uma requisição POST com os parâmetros da sessão (assunto, nível, quantidade de questões)
+Para a geracao de exercicios, e enviado um prompt estruturado que solicita um array JSON no seguinte formato: pergunta, quatro opcoes com letras A, B, C e D, e a alternativa correta.
 
-2. A API Route instancia o cliente Groq utilizando a chave armazenada em `GROQ_API_KEY`
+Para a geracao de feedback, o prompt solicita uma analise detalhada com nota de zero a dez, correcao das respostas e recomendacoes de melhoria.
 
-3. Para geração de exercícios, é enviado um prompt estruturado solicitando um array JSON no formato: pergunta, quatro opções com letras (A, B, C, D) e a alternativa correta
+## Exemplos de Uso da Aplicacao
 
-4. Para geração de feedback, o prompt solicita uma análise detalhada com nota de 0 a 10, correção das respostas e recomendações de melhoria
+Exemplo 1: Estudante de Ciencias da Computacao
 
-5. A resposta da IA é tratada (remoção de marcações markdown e validação JSON) antes de ser retornada ao front-end
+O estudante configura assunto Estruturas de Dados, nivel Avancado e 8 questoes. O sistema gera exercicios sobre arvores binarias, listas encadeadas e algoritmos de ordenacao. Ele responde as questoes e recebe feedback com nota, correcao das respostas erradas e recomendacoes de materiais para aprofundamento. O historico fica salvo para acompanhar evolucao na disciplina.
 
-O modelo `llama-3.3-70b-versatile` foi escolhido por sua qualidade na geração de conteúdo educacional e pela velocidade de resposta proporcionada pela infraestrutura LPU do Groq.
-
-
-## Exemplos de Uso da Aplicação
-
-**Exemplo 1: Estudante de Ciências da Computação**
-
-O usuário configura assunto "Estruturas de Dados", nível "Avançado" e 8 questões. O sistema gera exercícios sobre árvores binárias, listas encadeadas e algoritmos de ordenação. Ele responde as questões e recebe feedback detalhado sobre seu desempenho e uma nota geral, além de uma recomendação de possiveis melhorias.  O histórico fica salvo para acompanhar sua evolução. 
-
-**Exemplo 2: Estudante de Ensino Fundamental**
+Exemplo 2: Estudante de Ensino Fundamental
 
 O usuário configura assunto "Frações", nível "Iniciante" e 5 questões. O sistema gera os exercicios. Após responder, recebe feedback das suas respostas com uma nota final e explicação didática sobre os erros/acertos, bem como a indicação de principais pontos a serem reforçados para promoverem sua evolução no entendimento do assunto.
 
-**Exemplo 3: Acompanhamento de desempenho**
+Exemplo 3: Acompanhamento de desempenho
 
-Após duas semanas de uso, o estudante acessa o dashboard e visualiza seu progresso ao longo dos dias utilizando o Jarvis como apoio no processo de aprendizado. O sistema identifica todas as vezes que o aluno resolveu questões, bem como sua quantidade de acertos gerais e assunto mais estudado. Ele exporta um relatório PDF para mostrar ao professor.
+Apos duas semanas de uso, o estudante acessa o dashboard e visualiza seu progresso: realizou 12 sessoes, media geral 7,2, acertou 45 de 60 questoes. O sistema identifica que seu pior desempenho foi em Matematica e melhor em Programacao. Ele exporta um relatorio PDF para mostrar ao professor.
 
-**Exemplo 4: Revisão para prova final**
+Exemplo 4: Revisao para prova final
 
-O estudante de Ciências da Computação cria uma sessão com assunto "Banco de Dados", nível "Médio" e 30 questões. Após responder, o feedback aponta erros recorrentes em comandos SQL de junção. Com base nisso, ele refaz os exercícios, melhora a nota de 6.0 para 8.5 e  sua evolução é registrada no seu histórico. 
+O estudante de Ciencias da Computacao cria uma sessao com assunto Banco de Dados, nivel Medio e 10 questoes. Apos responder, o feedback aponta erros recorrentes em comandos SQL de juncao. Com base nisso, ele refaz os exercicios, melhora a nota de 6,0 para 8,5 e registra evolucao no historico.
 
-## Limitações Atuais do MVP
+## Limitacoes Atuais do MVP
 
-**Dependência de API externa**  
-O funcionamento do Jarvis depende exclusivamente da API do Groq. Em caso de instabilidade ou indisponibilidade do serviço, a geração de exercícios e feedback fica temporariamente comprometida.
+Dependencia de API externa: O funcionamento do Jarvis depende exclusivamente da API do Groq. Em caso de instabilidade ou indisponibilidade do servico, a geracao de exercicios e feedback fica temporariamente comprometida.
 
-**Sem autenticação de usuários**  
-O MVP não possui sistema de login e cadastro. Todos os dados de histórico são armazenados localmente no navegador (localStorage), o que significa que cada dispositivo ou navegador mantém seu próprio histórico separado.
+Sem autenticacao de usuarios: O MVP nao possui sistema de login. Todos os dados de historico sao armazenados localmente no navegador, o que significa que cada dispositivo ou navegador mantem seu proprio historico separado.
 
-**Back-end local**  
-O servidor Python com banco de dados SQLite precisa estar rodando localmente para salvar o histórico. Em produção, sem o deploy do back-end, os dados não persistem entre sessões.
+Back-end local: O servidor Python com banco de dados SQLite precisa estar rodando localmente para salvar o historico. Em producao, sem o deploy do back-end, os dados nao persistem entre sessoes.
 
-**Sem compartilhamento**  
-Não é possível compartilhar listas de exercícios, resultados ou relatórios com outros usuários ou professores.
+Sem compartilhamento: Nao e possivel compartilhar listas de exercicios, resultados ou relatorios com outros usuarios ou professores.
 
-**Exportação de PDF básica**  
-O relatório gerado em PDF possui formatação simples, sem gráficos ou elementos visuais mais elaborados.
+Quantidade limitada de questoes: A geracao esta limitada a no maximo 10 questoes por sessao para garantir tempo de resposta adequado da API.
 
-**Sem banco de dados em produção**  
-Atualmente o SQLite é utilizado apenas localmente. Não há uma solção de banco de dados para múltiplos usuários simultâneos em ambiente de produção.
+Exportacao de PDF basica: O relatorio gerado em PDF possui formatacao simples, sem graficos ou elementos visuais mais elaborados.
 
-## Possíveis Evoluções Futuras
+Sem banco de dados em producao: Atualmente o SQLite e utilizado apenas localmente. Nao ha uma solucao de banco de dados para multiplos usuarios simultaneos em ambiente de producao.
 
-**Sistema de autenticação**  
-Implementação de login e cadastro de usuários, permitindo que cada pessoa tenha seu próprio histórico salvo de forma segura e acessível de qualquer dispositivo.
+## Possiveis evoluções futuras
 
-**Dashboard com gráficos**  
-Adição de gráficos visuais no dashboard para acompanhamento de desempenho, incluindo evolução de notas ao longo do tempo, distribuição de acertos por assunto e comparação entre diferentes períodos de estudo.
+Sistema de autenticacao: Implementacao de login e cadastro de usuarios, permitindo que cada pessoa tenha seu proprio historico salvo de forma segura e acessivel de qualquer dispositivo.
 
-**Acompanhamento de evolução personalizado**  
-Sistema que identifica pontos fracos do estudante e sugere automaticamente exercícios focados nas áreas que precisam de melhoria, criando um plano de estudos adaptativo.
+Dashboard com graficos: Adição de gráficos visuais no dashboard para acompanhamento de desempenho, incluindo evolucao de notas ao longo do tempo, distribuicao de acertos por assunto e comparacao entre diferentes periodos de estudo.
 
-**Questões discursivas**  
-Suporte a diferentes formatos de questão, incluindo respostas discursivas com correção assistida por IA.
+Acompanhamento de evolução personalizado: Sistema que identifica pontos fracos do estudante e sugere automaticamente exercicios focados nas areas que precisam de melhoria, criando um plano de estudos adaptativo.
 
-**Gamificação**  
-Adição de elementos como medalhas, rankings, níveis de progresso e desafios semanais para aumentar o engajamento do usuário.
+Banco de dados em nuvem: Migracao do SQLite local para um banco de dados PostgreSQL hospedado em nuvem, garantindo persistencia dos dados e suporte a multiplos usuarios simultaneos.
+
+Modo offline: Implementacao de Progressive Web App para permitir uso sem conexao com a internet, com sincronizacao automatica quando o usuario voltar a ficar online.
+
+Compartilhamento de resultados: Funcionalidade para exportar relatorios em formatos variados como PDF, CSV e JSON, e compartilhar resultados com professores ou colegas.
+
+Questoes discursivas: Suporte a diferentes formatos de questao, incluindo respostas discursivas com correcao assistida por inteligencia artificial.
+
+Gamificação: Adicao de elementos como medalhas, rankings, niveis de progresso e desafios semanais para aumentar o engajamento do usuario.
